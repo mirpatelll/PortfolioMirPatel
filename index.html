@@ -265,9 +265,29 @@
     }
 
     .featured-visual.football-bg {
-      background: linear-gradient(135deg, #14532d 0%, #166534 50%, #1a472a 100%);
+      background: linear-gradient(135deg, #522D80 0%, #3a1f5c 50%, #1a0f33 100%);
       position: relative;
+      overflow: hidden;
     }
+    .football-bg::before {
+      content: '';
+      position: absolute;
+      inset: -20% -50%;
+      background: repeating-linear-gradient(90deg, transparent 0 60px, rgba(245,102,0,0.08) 60px 62px);
+      animation: cfbScroll 6s linear infinite;
+    }
+    @keyframes cfbScroll { from { transform: translateX(0); } to { transform: translateX(60px); } }
+    .cfb-live {
+      position: absolute; top: 14px; right: 16px; z-index: 2;
+      display: flex; align-items: center; gap: 6px;
+      background: rgba(0,0,0,0.4); padding: 4px 10px; border-radius: 12px;
+      font-family: var(--font-mono); font-size: 10px; color: #fff; letter-spacing: 1px;
+    }
+    .cfb-live::before {
+      content: ''; width: 7px; height: 7px; border-radius: 50%;
+      background: #ef4444; animation: cfbPulse 1.2s ease-in-out infinite;
+    }
+    @keyframes cfbPulse { 0%,100% { opacity:1; box-shadow:0 0 6px #ef4444; } 50% { opacity:0.4; } }
 
     .field-lines {
       position: absolute;
@@ -302,7 +322,13 @@
 
     .football-emoji {
       font-size: 4rem;
-      animation: float 3s ease-in-out infinite;
+      animation: cfbSpin 2.5s ease-in-out infinite;
+      filter: drop-shadow(0 4px 12px rgba(245,102,0,0.5));
+    }
+    @keyframes cfbSpin {
+      0%   { transform: translateX(-60px) rotate(0deg); }
+      50%  { transform: translateX(60px) rotate(360deg); }
+      100% { transform: translateX(-60px) rotate(720deg); }
     }
 
     .scoreboard {
@@ -322,16 +348,19 @@
       font-family: var(--font-heading);
       font-size: 0.85rem;
       font-weight: 700;
-      color: rgba(255,255,255,0.9);
+      color: #F56600;
       letter-spacing: 0.05em;
+      text-shadow: 0 0 8px rgba(245,102,0,0.5);
     }
-
+    .team-abbr.away { color: rgba(255,255,255,0.7); text-shadow:none; }
     .team-pts {
       font-family: var(--font-mono);
-      font-size: 2rem;
+      font-size: 2.2rem;
       font-weight: 700;
       color: #fff;
+      animation: cfbScore 4s ease-in-out infinite;
     }
+    @keyframes cfbScore { 0%,90%,100% { transform: scale(1); color:#fff; } 92% { transform: scale(1.25); color:#F56600; text-shadow:0 0 16px #F56600; } }
 
     .score-divider {
       font-family: var(--font-mono);
@@ -465,6 +494,33 @@
     .phase.in-progress .phase-icon { background: var(--accent); color: #fff; }
 
     .projects-gap { margin-top: 32px; }
+    .battleship-bg { background:linear-gradient(180deg,#0c1a2e 0%,#0a2540 50%,#051628 100%); display:flex; align-items:center; justify-content:center; overflow:hidden; position:relative; }
+    .battleship-bg::before { content:''; position:absolute; inset:0; background:repeating-linear-gradient(180deg,transparent 0 30px,rgba(56,189,248,0.04) 30px 31px); animation:bsWave 4s linear infinite; }
+    @keyframes bsWave { from{transform:translateY(0)} to{transform:translateY(30px)} }
+    .bs-board { display:grid; grid-template-columns:repeat(8,26px); grid-template-rows:repeat(8,26px); gap:3px; position:relative; z-index:1; }
+    .bs-c { background:rgba(56,189,248,0.10); border:1px solid rgba(56,189,248,0.30); border-radius:3px; }
+    .bs-s { background:linear-gradient(180deg,#64748b,#334155); border-color:#94a3b8; box-shadow:inset 0 -2px 0 rgba(0,0,0,0.4); }
+    .bs-h { background:radial-gradient(circle,#fbbf24,#dc2626); border-color:#fca5a5; animation:bsHit 1.6s ease-in-out infinite; }
+    @keyframes bsHit { 0%,100%{box-shadow:0 0 4px #dc2626} 50%{box-shadow:0 0 14px #fbbf24} }
+    .bs-m::after { content:''; display:block; width:6px; height:6px; margin:9px auto; background:#f1f5f9; border-radius:50%; box-shadow:0 0 6px rgba(255,255,255,0.6); }
+    .bs-fire { animation:bsFire 2.4s ease-in infinite; }
+    @keyframes bsFire { 0%{opacity:0;transform:scale(0)} 30%{opacity:1;transform:scale(1)} 70%{opacity:1;transform:scale(1)} 100%{opacity:0;transform:scale(1.4)} }
+    .laystat-bg { background:linear-gradient(135deg,#064e3b 0%,#022c22 100%); display:flex; align-items:center; justify-content:center; padding:18px; position:relative; overflow:hidden; }
+    .laystat-bg::before { content:''; position:absolute; inset:0; background:repeating-linear-gradient(90deg,transparent 0 60px,rgba(255,255,255,0.03) 60px 61px),repeating-linear-gradient(0deg,transparent 0 60px,rgba(255,255,255,0.03) 60px 61px); }
+    .ls-slip { width:240px; background:#0f172a; border:1px solid #22c55e; border-radius:10px; padding:14px; font-family:ui-monospace,monospace; color:#e2e8f0; position:relative; box-shadow:0 0 30px rgba(34,197,94,0.25); }
+    .ls-head { display:flex; justify-content:space-between; font-size:9px; color:#22c55e; letter-spacing:1px; margin-bottom:8px; }
+    .ls-leg { display:flex; justify-content:space-between; font-size:11px; padding:5px 0; border-bottom:1px dashed #1e293b; }
+    .ls-leg span:last-child { color:#22c55e; font-weight:700; }
+    .ls-tot { display:flex; justify-content:space-between; margin-top:8px; padding-top:8px; border-top:1px solid #22c55e; font-size:13px; }
+    .ls-tot .ls-win { color:#22c55e; animation:lsWin 2s ease-in-out infinite; }
+    @keyframes lsWin { 0%,100%{text-shadow:0 0 4px #22c55e} 50%{text-shadow:0 0 12px #22c55e,0 0 20px #22c55e} }
+    .ls-tick { display:inline-block; width:8px; height:8px; border-radius:50%; background:#22c55e; margin-right:4px; animation:lsTick 1.5s ease-in-out infinite; }
+    @keyframes lsTick { 0%,100%{opacity:1} 50%{opacity:0.3} }
+    .canyon-bg { background:linear-gradient(180deg,#fcd9a8 0%,#f59e5f 35%,#c2410c 70%,#7c2d12 100%); display:flex; align-items:flex-end; justify-content:center; overflow:hidden; position:relative; }
+    .canyon-bg::before { content:''; position:absolute; top:30px; right:60px; width:50px; height:50px; background:radial-gradient(circle,#fef9c3,#fbbf24); border-radius:50%; box-shadow:0 0 40px #fbbf24; animation:canyonSun 4s ease-in-out infinite; }
+    @keyframes canyonSun { 0%,100%{box-shadow:0 0 40px #fbbf24} 50%{box-shadow:0 0 60px #fde047} }
+    .canyon-rv { position:absolute; bottom:30px; left:-80px; animation:canyonDrive 8s linear infinite; }
+    @keyframes canyonDrive { 0%{left:-80px} 100%{left:100%} }
 
     .about-grid {
       display: grid;
@@ -621,6 +677,7 @@
         <li><a href="#projects">Projects</a></li>
         <li><a href="#about">About</a></li>
         <li><a href="#contact">Contact</a></li>
+        <li><a href="assets/Mir_Patel_Resume.pdf" target="_blank">Resume</a></li>
       </ul>
       <button class="hamburger" id="hamburger" aria-label="Toggle menu">
         <span></span><span></span><span></span>
@@ -644,6 +701,10 @@
         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"><path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"/></svg>
         GitHub
       </a>
+      <a href="assets/Mir_Patel_Resume.pdf" target="_blank" class="btn btn-secondary">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" width="18" height="18"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/><polyline points="10 9 9 9 8 9"/></svg>
+        Resume
+      </a>
     </div>
   </section>
 
@@ -651,41 +712,42 @@
     <p class="section-label">Projects</p>
     <h2 class="section-title">Featured Work</h2>
 
-    <div class="featured-card fade-in">
-      <div class="featured-visual virus-bg">
-        <div class="game-grid" id="gameGrid"></div>
-      </div>
+    <div class="featured-card fade-in"><div class="featured-visual laystat-bg"><div class="ls-slip">
+<div class="ls-head"><span><span class="ls-tick"></span>LIVE PARLAY</span><span>4-LEG</span></div>
+<div class="ls-leg"><span>Chiefs ML</span><span>-145 ✓</span></div>
+<div class="ls-leg"><span>Lakers -4.5</span><span>-110 ✓</span></div>
+<div class="ls-leg"><span>Mahomes O275.5</span><span>-115 ✓</span></div>
+<div class="ls-leg"><span>Celtics ML</span><span>-200</span></div>
+<div class="ls-tot"><span>$50 →</span><span class="ls-win">$487.20</span></div>
+</div></div><div class="featured-body">
+      <h3>LayStat</h3>
+      <p class="featured-subtitle">AI-powered sports bet analysis app — Solo Project</p>
+      <p>Full-stack betting analytics platform that parses bet slip screenshots with the Anthropic Claude API, tracks bankroll and history, and compares live odds. React on Netlify, Supabase auth and PostgreSQL with Row Level Security.</p>
+      <div class="tags"><span class="tag">React</span><span class="tag">Supabase</span><span class="tag">PostgreSQL</span><span class="tag">Claude API</span><span class="tag">Netlify</span></div>
+      <div class="project-links"><a href="https://laystat.netlify.app" target="_blank" class="btn btn-primary btn-sm">Live Demo</a><a href="https://github.com/mirpatelll/LayStat" target="_blank" class="btn btn-secondary btn-sm">Source Code</a></div>
+    </div></div>
+
+    <div class="featured-card fade-in projects-gap">
+      <div class="featured-visual battleship-bg"><svg viewBox="0 0 280 280" xmlns="http://www.w3.org/2000/svg" width="100%" style="max-width:300px;image-rendering:pixelated">
+<rect x="24" y="24" width="240" height="240" fill="#1e3a8a" stroke="#60a5fa" stroke-width="2"/><line x1="48" y1="24" x2="48" y2="264" stroke="#3b82f6" stroke-width="0.8"/><line x1="24" y1="48" x2="264" y2="48" stroke="#3b82f6" stroke-width="0.8"/><line x1="72" y1="24" x2="72" y2="264" stroke="#3b82f6" stroke-width="0.8"/><line x1="24" y1="72" x2="264" y2="72" stroke="#3b82f6" stroke-width="0.8"/><line x1="96" y1="24" x2="96" y2="264" stroke="#3b82f6" stroke-width="0.8"/><line x1="24" y1="96" x2="264" y2="96" stroke="#3b82f6" stroke-width="0.8"/><line x1="120" y1="24" x2="120" y2="264" stroke="#3b82f6" stroke-width="0.8"/><line x1="24" y1="120" x2="264" y2="120" stroke="#3b82f6" stroke-width="0.8"/><line x1="144" y1="24" x2="144" y2="264" stroke="#3b82f6" stroke-width="0.8"/><line x1="24" y1="144" x2="264" y2="144" stroke="#3b82f6" stroke-width="0.8"/><line x1="168" y1="24" x2="168" y2="264" stroke="#3b82f6" stroke-width="0.8"/><line x1="24" y1="168" x2="264" y2="168" stroke="#3b82f6" stroke-width="0.8"/><line x1="192" y1="24" x2="192" y2="264" stroke="#3b82f6" stroke-width="0.8"/><line x1="24" y1="192" x2="264" y2="192" stroke="#3b82f6" stroke-width="0.8"/><line x1="216" y1="24" x2="216" y2="264" stroke="#3b82f6" stroke-width="0.8"/><line x1="24" y1="216" x2="264" y2="216" stroke="#3b82f6" stroke-width="0.8"/><line x1="240" y1="24" x2="240" y2="264" stroke="#3b82f6" stroke-width="0.8"/><line x1="24" y1="240" x2="264" y2="240" stroke="#3b82f6" stroke-width="0.8"/><text x="36" y="18" fill="#e0f2fe" font-family="monospace" font-size="11" text-anchor="middle" font-weight="700">1</text><text x="60" y="18" fill="#e0f2fe" font-family="monospace" font-size="11" text-anchor="middle" font-weight="700">2</text><text x="84" y="18" fill="#e0f2fe" font-family="monospace" font-size="11" text-anchor="middle" font-weight="700">3</text><text x="108" y="18" fill="#e0f2fe" font-family="monospace" font-size="11" text-anchor="middle" font-weight="700">4</text><text x="132" y="18" fill="#e0f2fe" font-family="monospace" font-size="11" text-anchor="middle" font-weight="700">5</text><text x="156" y="18" fill="#e0f2fe" font-family="monospace" font-size="11" text-anchor="middle" font-weight="700">6</text><text x="180" y="18" fill="#e0f2fe" font-family="monospace" font-size="11" text-anchor="middle" font-weight="700">7</text><text x="204" y="18" fill="#e0f2fe" font-family="monospace" font-size="11" text-anchor="middle" font-weight="700">8</text><text x="228" y="18" fill="#e0f2fe" font-family="monospace" font-size="11" text-anchor="middle" font-weight="700">9</text><text x="252" y="18" fill="#e0f2fe" font-family="monospace" font-size="11" text-anchor="middle" font-weight="700">10</text><text x="14" y="40" fill="#e0f2fe" font-family="monospace" font-size="11" text-anchor="middle" font-weight="700">A</text><text x="14" y="64" fill="#e0f2fe" font-family="monospace" font-size="11" text-anchor="middle" font-weight="700">B</text><text x="14" y="88" fill="#e0f2fe" font-family="monospace" font-size="11" text-anchor="middle" font-weight="700">C</text><text x="14" y="112" fill="#e0f2fe" font-family="monospace" font-size="11" text-anchor="middle" font-weight="700">D</text><text x="14" y="136" fill="#e0f2fe" font-family="monospace" font-size="11" text-anchor="middle" font-weight="700">E</text><text x="14" y="160" fill="#e0f2fe" font-family="monospace" font-size="11" text-anchor="middle" font-weight="700">F</text><text x="14" y="184" fill="#e0f2fe" font-family="monospace" font-size="11" text-anchor="middle" font-weight="700">G</text><text x="14" y="208" fill="#e0f2fe" font-family="monospace" font-size="11" text-anchor="middle" font-weight="700">H</text><text x="14" y="232" fill="#e0f2fe" font-family="monospace" font-size="11" text-anchor="middle" font-weight="700">I</text><text x="14" y="256" fill="#e0f2fe" font-family="monospace" font-size="11" text-anchor="middle" font-weight="700">J</text><rect x="26" y="125" width="116" height="14" rx="3" fill="#94a3b8" stroke="#475569" stroke-width="1.2"/><rect x="30" y="128" width="108" height="2" fill="#475569"/><circle cx="32" cy="132" r="1.5" fill="#1e293b"/><circle cx="136" cy="132" r="1.5" fill="#1e293b"/><rect x="197" y="98" width="14" height="92" rx="3" fill="#94a3b8" stroke="#475569" stroke-width="1.2"/><rect x="200" y="102" width="2" height="84" fill="#475569"/><rect x="204" y="102" width="2" height="84" fill="#475569"/><rect x="125" y="170" width="14" height="68" rx="3" fill="#94a3b8" stroke="#475569" stroke-width="1.2"/><rect x="128" y="174" width="2" height="60" fill="#475569"/><rect x="132" y="174" width="2" height="60" fill="#475569"/><rect x="170" y="197" width="68" height="14" rx="3" fill="#94a3b8" stroke="#475569" stroke-width="1.2"/><rect x="174" y="200" width="60" height="2" fill="#475569"/><circle cx="176" cy="204" r="1.5" fill="#1e293b"/><circle cx="232" cy="204" r="1.5" fill="#1e293b"/><rect x="101" y="50" width="14" height="44" rx="3" fill="#94a3b8" stroke="#475569" stroke-width="1.2"/><rect x="104" y="54" width="2" height="36" fill="#475569"/><rect x="108" y="54" width="2" height="36" fill="#475569"/><g><circle cx="204" cy="156" r="9" fill="#dc2626"/><circle cx="204" cy="156" r="5" fill="#fbbf24"><animate attributeName="r" values="3;7;3" dur="1.2s" repeatCount="indefinite"/></circle></g><g fill="#e0f2fe"><circle cx="252" cy="84" r="2"/><circle cx="247" cy="80" r="1.2"/><circle cx="257" cy="81" r="1.2"/><circle cx="248" cy="88" r="1.2"/><circle cx="257" cy="88" r="1.2"/></g><g fill="#e0f2fe"><circle cx="36" cy="156" r="2"/><circle cx="31" cy="152" r="1.2"/><circle cx="41" cy="153" r="1.2"/><circle cx="32" cy="160" r="1.2"/><circle cx="41" cy="160" r="1.2"/></g><g fill="#e0f2fe"><circle cx="84" cy="156" r="2"/><circle cx="79" cy="152" r="1.2"/><circle cx="89" cy="153" r="1.2"/><circle cx="80" cy="160" r="1.2"/><circle cx="89" cy="160" r="1.2"/></g><g fill="#e0f2fe"><circle cx="132" cy="156" r="2"/><circle cx="127" cy="152" r="1.2"/><circle cx="137" cy="153" r="1.2"/><circle cx="128" cy="160" r="1.2"/><circle cx="137" cy="160" r="1.2"/></g><g><circle r="6" fill="none" stroke="#fbbf24" stroke-width="1.5"><animate attributeName="cx" values="60;180;132;204;60" dur="6s" repeatCount="indefinite"/><animate attributeName="cy" values="60;120;180;96;60" dur="6s" repeatCount="indefinite"/><animate attributeName="opacity" values="0;1;1;1;0" dur="6s" repeatCount="indefinite"/></circle></g></svg></div>
       <div class="featured-body">
-        <h3>Virus Outbreak</h3>
-        <p class="featured-subtitle">Turn-based multiplayer territory control game</p>
-        <div class="phases">
-          <span class="phase complete">
-            <span class="phase-icon">&#10003;</span>
-            Phase 1 — Backend API
-          </span>
-          <span class="phase in-progress">
-            <span class="phase-icon">&#8226;</span>
-            Phase 2 — Frontend Client
-          </span>
-          <span class="phase upcoming">
-            Phase 3 — AI Player
-          </span>
-        </div>
+        <h3>Battleship</h3>
+        <p class="featured-subtitle">Multiplayer Battleship — Full-stack web game</p>
         <p>
-          A grid-based strategy game where players spread a virus to adjacent cells to control territory.
-          Built with a RESTful API, relational database design with six normalized tables,
-          UUID-based identity, and a full test suite with 32 passing tests.
+          A full-stack multiplayer Battleship game with ship placement, turn-based firing, and persistent
+          win/loss stats. Flask and PostgreSQL backend deployed on Render with a REST API supporting
+          camelCase and snake_case clients, validated by an autograder test suite.
         </p>
         <div class="tags">
           <span class="tag">Python</span>
           <span class="tag">Flask</span>
-          <span class="tag">SQLAlchemy</span>
-          <span class="tag">SQLite</span>
+          <span class="tag">PostgreSQL</span>
           <span class="tag">REST API</span>
-          <span class="tag">pytest</span>
+          <span class="tag">Render</span>
         </div>
         <div class="project-links">
-          <a href="https://github.com/mirpatelll/FinalProject_VirusOutbreak" target="_blank" class="btn btn-secondary btn-sm">
+          <a href="https://finalproject-battleship.onrender.com" target="_blank" class="btn btn-primary btn-sm">Live Demo</a>
+          <a href="https://github.com/mirpatelll/FinalProject_Battleship" target="_blank" class="btn btn-secondary btn-sm">
             <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" width="16" height="16"><path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"/></svg>
             Source Code
           </a>
@@ -695,6 +757,7 @@
 
     <div class="featured-card fade-in projects-gap">
       <div class="featured-visual football-bg">
+        <div class="cfb-live">LIVE · Q4</div>
         <div class="field-lines">
           <div class="yard-line" style="top: 20%"></div>
           <div class="yard-line" style="top: 40%"></div>
@@ -704,19 +767,16 @@
           <div class="sideline" style="right: 8%"></div>
         </div>
         <div class="football-icon">
-          <div class="football-emoji">🏈</div>
-          <div class="scoreboard">
-            <div class="team-score">
-              <span class="team-abbr">CLEM</span>
-              <span class="team-pts">34</span>
-            </div>
-            <span class="score-divider">—</span>
-            <div class="team-score">
-              <span class="team-abbr">USC</span>
-              <span class="team-pts">28</span>
-            </div>
+          <div style="background:linear-gradient(135deg,#F56600,#c2410c);padding:5px 14px;border-radius:4px;font-family:var(--font-mono);font-size:9px;font-weight:800;letter-spacing:2px;color:#fff;box-shadow:0 0 20px rgba(245,102,0,0.5);">COLLEGE GAMEDAY</div>
+          <div style="display:flex;align-items:center;gap:18px;">
+            <div class="football-emoji" style="font-size:2.8rem">🏈</div>
           </div>
-          <span class="game-quarter">Final</span>
+          <div class="scoreboard">
+            <div class="team-score"><span class="team-abbr">CLEM</span><span class="team-pts">34</span></div>
+            <span class="score-divider">—</span>
+            <div class="team-score"><span class="team-abbr away">USC</span><span class="team-pts">28</span></div>
+          </div>
+          <span class="game-quarter">📍 MEMORIAL STADIUM · 2:14 4TH</span>
         </div>
       </div>
       <div class="featured-body">
@@ -746,6 +806,24 @@
         </div>
       </div>
     </div>
+    
+    <div class="featured-card fade-in projects-gap"><div class="featured-visual canyon-bg"><div class="canyon-rv" style="font-size:32px">🚐</div>
+      <svg viewBox="0 0 400 240" xmlns="http://www.w3.org/2000/svg" width="100%" preserveAspectRatio="xMidYMid slice">
+        <circle cx="320" cy="60" r="28" fill="#fef3c7" opacity="0.9"/>
+        <path d="M0 240 L0 150 L40 130 L60 145 L90 110 L120 130 L140 100 L170 125 L200 90 L230 115 L260 85 L290 110 L320 95 L350 120 L380 105 L400 130 L400 240 Z" fill="#9a3412"/>
+        <path d="M0 240 L0 180 L50 165 L80 175 L110 155 L150 170 L190 150 L220 165 L260 145 L300 160 L340 150 L380 165 L400 155 L400 240 Z" fill="#7c2d12"/>
+        <path d="M0 240 L0 210 L60 200 L120 210 L180 200 L240 210 L300 200 L360 210 L400 205 L400 240 Z" fill="#451a03"/>
+        <rect x="170" y="195" width="60" height="30" rx="3" fill="#f8fafc"/>
+        <rect x="178" y="200" width="44" height="14" rx="2" fill="#0ea5e9" opacity="0.4"/>
+        <circle cx="180" cy="225" r="4" fill="#1e293b"/><circle cx="220" cy="225" r="4" fill="#1e293b"/>
+      </svg>
+    </div><div class="featured-body">
+      <h3>Color Canyon RV Resort</h3>
+      <p class="featured-subtitle">Marketing website for a Utah RV resort — Client Project</p>
+      <p>Seven page responsive website for a Utah RV resort with 98 full hookup sites, amenities, gallery, storage pricing, and contact info.</p>
+      <div class="tags"><span class="tag">HTML</span><span class="tag">CSS</span><span class="tag">Responsive</span><span class="tag">Client Work</span></div>
+      <div class="project-links"><a href="https://colorcanyonrvresorts.netlify.app/" target="_blank" class="btn btn-primary btn-sm">Live Demo</a><a href="https://github.com/mirpatelll/ColorCanyonUtah" target="_blank" class="btn btn-secondary btn-sm">Source Code</a></div>
+    </div></div>
   </section>
 
   <section id="about">
